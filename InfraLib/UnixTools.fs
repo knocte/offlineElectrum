@@ -88,6 +88,6 @@ module UnixTools =
             if not (line.Trim().Contains("Depends:")) then
                 DownloadAptPackage(line.Trim())
 
-    let DownloadAptPackagesRecursively (packages: string array) =
+    let DownloadAptPackagesRecursively (packages: string seq) =
         for pkg in packages do
             DownloadAptPackageRecursively(pkg)
