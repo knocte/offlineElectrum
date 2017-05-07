@@ -8,9 +8,9 @@ open System.Security.Cryptography
 open System.Linq
 open System.Collections.Generic
 
-#load "InfraLib/ProcessTools.fs"
 #r "System.Configuration"
 #load "InfraLib/MiscTools.fs"
+#load "InfraLib/ProcessTools.fs"
 #load "InfraLib/UnixTools.fs"
 #load "InfraLib/NetTools.fs"
 open Fsx.Infrastructure

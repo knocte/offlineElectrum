@@ -60,11 +60,14 @@ module UnixTools =
             Sudo(String.Format("apt -y install {0}", packageName)) |> ignore
 
     let rec DownloadAptPackage (packageName: string) =
-        let exitCode,output,err = ProcessTools.HiddenExec("apt", "download " + packageName)
-        if (exitCode = 0) then
+        Console.WriteLine(sprintf "Downloading %s..."  packageName)
+        let procResult = ProcessTools.Execute({ Command = "apt"; Arguments = "download " + packageName}, true, false)
+        if (procResult.ExitCode = 0) then
             Console.WriteLine("Downloaded " + packageName)
             ()
-        else if (err.Contains("E: Can't select candidate version from package")) then
+        else if (ProcessTools.GetStdErr(procResult.Output).ToString().Contains("E: Can't select candidate version from package")) then
+            Console.WriteLine()
+            Console.WriteLine()
             Console.WriteLine("Virtual package '{0}' found, provided by:", packageName)
             InstallAptPackageIfNotAlreadyInstalled("aptitude")
             let exitCode,output,err = ProcessTools.SafeHiddenExec("aptitude", "show " + packageName)
@@ -76,9 +79,7 @@ module UnixTools =
                     let pkg = Console.ReadLine()
                     DownloadAptPackage(pkg)
         else
-            Console.WriteLine(output)
-            Console.Error.WriteLine(err)
-            failwith(err)
+            failwith("The 'apt download' command ended with error")
 
     let DownloadAptPackageRecursively (packageName: string) =
         InstallAptPackageIfNotAlreadyInstalled("apt-rdepends")
