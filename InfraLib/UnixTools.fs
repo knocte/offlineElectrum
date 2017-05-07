@@ -60,8 +60,9 @@ module UnixTools =
             Sudo(String.Format("apt -y install {0}", packageName)) |> ignore
 
     let rec DownloadAptPackage (packageName: string) =
+        Console.WriteLine()
         Console.WriteLine(sprintf "Downloading %s..."  packageName)
-        let procResult = ProcessTools.Execute({ Command = "apt"; Arguments = "download " + packageName}, true, false)
+        let procResult = ProcessTools.Execute({ Command = "apt"; Arguments = "download " + packageName}, false, false)
         if (procResult.ExitCode = 0) then
             Console.WriteLine("Downloaded " + packageName)
             ()
