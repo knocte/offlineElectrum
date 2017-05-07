@@ -54,7 +54,7 @@ try
     UnixTools.DownloadAptPackagesRecursively(deps)
     ProcessTools.SafeExec("pip", "download " + electrumTgz.Name, true)
 
-    Console.WriteLine("Success, now do this in the offline computer:")
+    Console.WriteLine("Success, now copy all files in bin/ to your offline computer, and execute these commands there:")
     Console.WriteLine("sudo dpkg --install *.deb")
     Console.WriteLine("sudo pip install {0} --no-index --find-links `pwd`", electrumTgz.Name)
 finally
