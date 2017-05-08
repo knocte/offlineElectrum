@@ -42,7 +42,7 @@ let deps =
     if coin = Coin.Bitcoin then
         electrumDeps
     else
-        "python-slowaes"::electrumDeps
+        "python-dev"::("python-slowaes"::electrumDeps)
 
 let currentDir = Directory.GetCurrentDirectory()
 let binDir = Path.Combine(currentDir, "bin")
