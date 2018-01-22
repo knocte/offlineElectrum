@@ -15,7 +15,7 @@ open System.Collections.Generic
 #load "InfraLib/NetTools.fs"
 open Fsx.Infrastructure
 
-let electrumDeps = [ "python-qt4"; "python-setuptools"; "python-pip" ]
+let electrumDeps = [ "python3-pyqt5"; "python3-setuptools"; "python3-pip" ]
 
 type Coin = Bitcoin | Litecoin
 
@@ -34,7 +34,7 @@ let coin = askCoin()
 
 let binary,hash =
     if coin = Coin.Bitcoin then
-        "https://download.electrum.org/2.7.12/Electrum-2.7.12.tar.gz","3644274231326cc6b13a25703ebe6ec22bbbce7832a86d75abc745040475ad6f"
+        "https://download.electrum.org/3.0.5/Electrum-3.0.5.tar.gz","61ebc06782433f928853188762c6f3098bd3d08d54c34b5594233d196e51e01b"
     else
         "https://electrum-ltc.org/download/Electrum-LTC-2.6.4.2.tar.gz","64d9d6c3c4ceda8a73e1abe454d41b137262d7fad5406e6d8cea4d63cdf40c6b"
 
@@ -52,10 +52,10 @@ Directory.SetCurrentDirectory(binDir)
 try
     let electrumTgz = NetTools.SafeDownloadFile(new Uri(binary), hash)
     UnixTools.DownloadAptPackagesRecursively(deps)
-    ProcessTools.SafeExec("pip", "download " + electrumTgz.Name, true)
+    ProcessTools.SafeExec("pip3", "download " + electrumTgz.Name, true)
 
     Console.WriteLine("Success, now copy all files in bin/ to your offline computer, and execute these commands there:")
     Console.WriteLine("sudo dpkg --install *.deb")
-    Console.WriteLine("sudo pip install {0} --no-index --find-links `pwd`", electrumTgz.Name)
+    Console.WriteLine("sudo pip3 install {0} --no-index --find-links `pwd`", electrumTgz.Name)
 finally
     Directory.SetCurrentDirectory(currentDir)
